@@ -618,7 +618,6 @@ class RAGSearchService:
     Cấu trúc:
     - Tóm tắt ngắn gọn.
     - Bullet points nếu cần.
-    - Trích dẫn [Document X] nếu dùng.
 
     Query: {query}
 

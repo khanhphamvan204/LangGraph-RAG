@@ -36,7 +36,7 @@ def _create_embedding_model():
     
     model = HuggingFaceEmbeddings(
         model_name="dangvantuan/vietnamese-document-embedding",
-        model_kwargs={'device': 'cuda', 'trust_remote_code': True}, 
+        model_kwargs={'device': 'cpu', 'trust_remote_code': True}, 
         encode_kwargs={'normalize_embeddings': True}
     )
     

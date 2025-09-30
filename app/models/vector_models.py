@@ -7,7 +7,6 @@ class AddVectorRequest(BaseModel):
     filename: str
     url: str
     uploaded_by: str
-    role: dict
     createdAt: str
 
 class SearchResult(BaseModel):

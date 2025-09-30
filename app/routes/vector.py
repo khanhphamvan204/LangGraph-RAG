@@ -41,8 +41,6 @@ logger = logging.getLogger(__name__)
 async def add_vector_document(
     file: UploadFile = File(...),
     uploaded_by: str = Form(...),
-    role_user: str = Form(default="[]"),
-    role_subject: str = Form(default="[]"),
     current_user: dict = Depends(verify_token_v2)
 ):
     try:
@@ -70,17 +68,12 @@ async def add_vector_document(
         file_path, vector_db_path = get_file_paths(file_name)
         file_url = file_path
         
-        role = {
-            "user": json.loads(role_user),
-            "subject": json.loads(role_subject)
-        }
         
         metadata = AddVectorRequest(
             _id=generated_id,
             filename=file_name,
             url=file_url,
             uploaded_by=uploaded_by,
-            role=role,
             createdAt=created_at
         )
         
@@ -208,8 +201,6 @@ async def update_vector_document(
     current_user: dict = Depends(verify_token_v2),
     filename: str = Form(None),
     uploaded_by: str = Form(None),
-    role_user: str = Form(None),
-    role_subject: str = Form(None),
     force_re_embed: bool = Form(False)
 ):
     try:
@@ -258,11 +249,6 @@ async def update_vector_document(
         new_filename = final_filename
         new_uploaded_by = uploaded_by or current_doc.get('uploaded_by')
         
-        current_role = current_doc.get('role', {'user': [], 'subject': []})
-        new_role = {
-            'user': json.loads(role_user) if role_user else current_role.get('user', []),
-            'subject': json.loads(role_subject) if role_subject else current_role.get('subject', [])
-        } if role_user or role_subject else current_role
         
         filename_changed = filename and new_filename != current_filename
         
@@ -287,7 +273,6 @@ async def update_vector_document(
             filename=new_filename,
             url=final_file_path,
             uploaded_by=new_uploaded_by,
-            role=new_role,
             createdAt=current_doc.get('createdAt')
         )
         
@@ -305,7 +290,6 @@ async def update_vector_document(
             "updated_fields": {
                 "filename": {"old": current_filename, "new": new_filename, "changed": filename_changed},
                 "uploaded_by": {"old": current_doc.get('uploaded_by'), "new": new_uploaded_by, "changed": new_uploaded_by != current_doc.get('uploaded_by')},
-                "role": {"old": current_role, "new": new_role, "changed": new_role != current_role}
             },
             "operations": operations,
             "paths": {
