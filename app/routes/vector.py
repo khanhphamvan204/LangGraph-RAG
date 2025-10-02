@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 async def add_vector_document(
     file: UploadFile = File(...),
     uploaded_by: str = Form(...),
-    current_user: dict = Depends(verify_token_v2)
+    current_user: dict = Depends(verify_token)
 ):
     try:
         file_name = file.filename
@@ -121,7 +121,7 @@ async def add_vector_document(
 @router.delete("/{doc_id}", response_model=dict)
 async def delete_vector_document(
     doc_id: str,
-    current_user: dict = Depends(verify_token_v2)
+    current_user: dict = Depends(verify_token)
 ):
     try:
         doc_info = find_document_info(doc_id)
@@ -164,7 +164,7 @@ async def delete_vector_document(
 @router.get("/{doc_id}", response_model=dict)
 async def get_vector_document(
     doc_id: str,
-    current_user: dict = Depends(verify_token_v2)
+    current_user: dict = Depends(verify_token)
 ):
     try:
         doc_info = find_document_info(doc_id)
@@ -198,7 +198,7 @@ def standardization(distance: float) -> float:
 @router.put("/{doc_id}", response_model=dict)
 async def update_vector_document(
     doc_id: str,
-    current_user: dict = Depends(verify_token_v2),
+    current_user: dict = Depends(verify_token),
     filename: str = Form(None),
     uploaded_by: str = Form(None),
     force_re_embed: bool = Form(False)
@@ -316,7 +316,7 @@ async def update_vector_document(
 @router.post("/search", response_model=VectorSearchResponse)
 async def search_vector_documents(
     request: VectorSearchRequest,
-    current_user: dict = Depends(verify_token_v2) 
+    current_user: dict = Depends(verify_token) 
 ):
     start_time = time.time()
     
@@ -403,7 +403,7 @@ async def search_vector_documents(
 @router.post("/search-with-llm")
 async def search_with_llm(
     request: VectorSearchRequest,
-    current_user: dict = Depends(verify_token_v2)
+    current_user: dict = Depends(verify_token)
 ):
     start_time = time.time()
 
@@ -522,9 +522,10 @@ class ProcessQueryResponse(BaseModel):
     thread_id: str | None
 
 # ================== API ROUTE ==================
-@router.post("/process-query", response_model=ProcessQueryResponse)  # Giữ nguyên, nhưng handle bên trong
+@router.post("/process-query", response_model=ProcessQueryResponse)  
 async def process_query_api(
     request: ProcessQueryRequest,
+    current_user: dict = Depends(verify_token)
 ):
     start_time = time.time()
     try:
