@@ -68,7 +68,7 @@ data = {'uploaded_by': 'Nguyễn Văn A'}
 headers = {'Authorization': 'Bearer your_token'}
 
 response = requests.post(
-    'http://localhost:8000/documents/vector/add',
+    'http://localhost:3636/documents/vector/add',
     files=files,
     data=data,
     headers=headers
@@ -554,7 +554,7 @@ services:
       dockerfile: Dockerfile
     container_name: faiss-api-main
     ports:
-      - "8000:8000"
+      - "3636:3636"
     volumes:
       - ./Root_Folder:/app/Root_Folder
       - ./.env:/app/.env
@@ -582,7 +582,7 @@ services:
       dockerfile: Dockerfile
     container_name: faiss-api-main
     ports:
-      - "8000:8000"
+      - "3636:3636"
     volumes:
       - ./Root_Folder:/app/Root_Folder
       - ./.env:/app/.env
@@ -662,9 +662,9 @@ COPY . .
 
 ENV PYTHONUNBUFFERED=1
 
-EXPOSE 8000
+EXPOSE 3636
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3636"]
 ```
 
 ### Environment Variables (.env)
@@ -756,7 +756,7 @@ docker exec -it mongo-db mongosh -u admin -p 123
 
 #### API Health:
 ```bash
-curl http://localhost:8000/docs
+curl http://localhost:3636/docs
 ```
 
 #### MongoDB Health (Full Stack mode):
@@ -802,7 +802,7 @@ mongo:
    ```bash
    # Thay đổi port trong docker-compose.yml
    ports:
-     - "8001:8000"  # Host:Container
+     - "8001:3636"  # Host:Container
    ```
 
 2. **MongoDB không start:**

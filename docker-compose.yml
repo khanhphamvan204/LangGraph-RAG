@@ -6,7 +6,7 @@
 #       dockerfile: Dockerfile
 #     container_name: faiss-api-main
 #     ports:
-#       - "8000:8000"
+#       - "3636:3636"
 #     volumes:
 #       - ./Root_Folder:/app/Root_Folder
 #       - ./.env:/app/.env
@@ -64,7 +64,7 @@ services:
       dockerfile: Dockerfile
     container_name: faiss-api-main
     ports:
-      - "8000:8000"
+      - "3636:3636"
     volumes:
       - ./Root_Folder:/app/Root_Folder
       - ./.env:/app/.env

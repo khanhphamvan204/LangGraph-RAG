@@ -573,7 +573,7 @@ def extract_docx_with_tables(docx_path, table_sep="\t"):
             logger.error(f"Fallback extraction also failed: {str(fallback_e)}")
             return ""
 
-def split_content_into_chunks(content: str, chunk_size: int = 1500, chunk_overlap: int = 150) -> list:
+def split_content_into_chunks(content: str, chunk_size: int = 3000, chunk_overlap: int = 300) -> list:
     """
     Chia nội dung thành các chunk nhỏ hơn để tránh quá dài
     

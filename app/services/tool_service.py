@@ -188,7 +188,7 @@ class TextToSqlService:
                     info += " - Hết hàng"
                 products_info.append(info)
 
-            products_text = "\n".join(products_info[:10])  # Chỉ lấy 10 sản phẩm đầu tiên
+            products_text = "\n".join(products_info[:15])  
 
             prompt_template = PromptTemplate(
                 input_variables=["query", "products", "count"],
@@ -254,25 +254,9 @@ Trả lời ngắn gọn:"""
 
 Schema: {schema}
 
-Query format: SELECT DISTINCT pv.id FROM product_variants pv JOIN products p ON pv.product_id=p.id [JOINs] WHERE [conditions] LIMIT 20;
-
-Vietnamese mappings:
-- pizza -> JOIN categories c ON p.category_id=c.id WHERE c.name LIKE '%pizza%'
-- salad -> c.name LIKE '%salad%' OR p.name LIKE '%salad%'
-- nước uống -> c.name LIKE '%nước%' OR c.name LIKE '%đồ uống%' OR p.name LIKE '%nước%'
-- hải sản -> p.name LIKE '%hải sản%'
-- thịt -> p.name LIKE '%thịt%'
-- gà -> p.name LIKE '%gà%'
-- chay -> p.name LIKE '%chay%'
-- lớn -> JOIN sizes s ON pv.size_id=s.id WHERE s.name IN ('Lớn','Siêu Lớn','Cỡ Đại','Gia Đình')
-- nhỏ, vừa -> s.name IN ('Nhỏ','Vừa','Mini','Siêu Nhỏ')
-- giá rẻ, rẻ -> pv.price < 200000
-- đắt, giá cao -> pv.price > 300000
-- đế mỏng -> JOIN crusts cr ON pv.crust_id=cr.id WHERE cr.name LIKE '%mỏng%'
-- đế dày -> cr.name LIKE '%dày%'
-- phô mai -> cr.name LIKE '%phô mai%' OR p.name LIKE '%phô mai%'
-
+Query format: SELECT pv.id FROM product_variants pv JOIN products p ON pv.product_id=p.id [JOINs] WHERE [conditions];
 Important: 
+- If having lots of results, LIMIT 15
 - Use MySQL syntax and functions
 - Use LIKE for text matching with % wildcards
 - Always return pv.id (product_variants.id) in SELECT

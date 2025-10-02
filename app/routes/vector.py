@@ -525,7 +525,6 @@ class ProcessQueryResponse(BaseModel):
 @router.post("/process-query", response_model=ProcessQueryResponse)  
 async def process_query_api(
     request: ProcessQueryRequest,
-    current_user: dict = Depends(verify_token)
 ):
     start_time = time.time()
     try:
